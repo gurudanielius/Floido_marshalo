@@ -7,6 +7,22 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 import pandas as pd
 
+def floyd_warshall(graph):
+    virsuniu_skaicius=len(graph)
+    atstumai = np.full((virsuniu_skaicius, virsuniu_skaicius), np.inf)
+        
+    for i in range(virsuniu_skaicius):
+        atstumai[i][i] = 0    
+        for sekantis, svoris in graph[i].edges.items():
+            atstumai[graph[i].virsunes_id-1][sekantis-1] = svoris
+        
+    for k in range(virsuniu_skaicius):
+        for i in range(virsuniu_skaicius):
+            for j in range(virsuniu_skaicius):
+                atstumai[i][j] = min(atstumai[i][j], atstumai[i][k] + atstumai[k][j])                
+    return atstumai;
+
+
 #Sukuriam objektus: virsunes
 virsune1 = str.Virsune(1) #sukuriam viršūnę su id 1
 
